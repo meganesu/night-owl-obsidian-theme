@@ -37,8 +37,15 @@
   --text-h4: #ffb86c;
   --text-h5: #8be9fd;
   --text-h6: #bd93f9;
+  --text-h1-size: 2em;
+  --text-h2-size: 1.6em;
+  --text-h3-size: 1.37em;
+  --text-h4-size: 1.25em;
+  --text-h5-size: 1.12em;
+  --text-h6-size: 1.12em;
   --text-strong: #c5e478;
   --text-italic: #c792ea;
+  --text-inline-code: #bd93f9;
   --text-link: #d6deeb;
 }
 
@@ -89,17 +96,19 @@ input[type="range"]:active, input[type="range"]:focus, input[type="range"]:hover
 /* UI ELEMENTS */
 
 /* buttons */
-button {
-  background-color: #7e57c2cc;
+button,
+button.copy-code-button {
+  background-color: var(--interactive-accent);
   color: var(--input-foreground);
 }
 button:active, button:focus, button:hover {
-  background-color: #7e57c2;
+  background-color: var(--interactive-accent-hover);
 }
+
 
 /* toast notifications */
 .notice {
-  background-color: #7e57c2cc;
+  background-color: var(--interactive-accent);
   color: var(--input-foreground);
 }
 
@@ -170,6 +179,15 @@ input[type='number']:hover {
   color: var(--text-strong);
 }
 
+.cm-em {
+  color: var(--text-italic);
+}
+
+.cm-s-obsidian span.cm-inline-code,
+.markdown-preview-view code {
+  color: var(--text-inline-code);
+}
+
 .cm-url {
   font-style: italic;
 }
@@ -199,9 +217,35 @@ input[type='number']:hover {
 
 /* BUG FIXES */
 
-/* Fix small font when using inline text in note headings */
 .cm-s-obsidian span.cm-inline-code {
-  font-size: reset;
+  /* Fix small font when using inline text in note headings */
+  font-size: 100%;
+}
+.cm-s-obsidian span.cm-inline-code.cm-header-1 {
+  font-size: var(--text-h1-size);
+}
+.cm-s-obsidian span.cm-inline-code.cm-header-2 {
+  font-size: var(--text-h2-size);
+}
+.cm-s-obsidian span.cm-inline-code.cm-header-3 {
+  font-size: var(--text-h3-size);
+}
+.cm-s-obsidian span.cm-inline-code.cm-header-4 {
+  font-size: var(--text-h4-size);
+}
+.cm-s-obsidian span.cm-inline-code.cm-header-5 {
+  font-size: var(--text-h5-size);
+}
+.cm-s-obsidian span.cm-inline-code.cm-header-6 {
+  font-size: var(--text-h6-size);
+}
+
+/* Fix background color when highlighting inline text */
+.cm-s-obsidian span.cm-inline-code {
+  background: none;
+}
+.cm-s-obsidian span.cm-inline-code:not(.cm-formatting):not(.cm-hmd-indented-code):not(.obsidian-search-match-highlight) {
+  background: none;
 }
 
 /* Fix the long-title-obscuring shadows */
