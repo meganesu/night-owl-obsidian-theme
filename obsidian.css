@@ -2,16 +2,19 @@
 
 .theme-dark {
   /* Override Obsidian CSS variables */
+  --background-modifier-border: #011627; /* workspace-ribbon inner border when collapsed */
+  --background-modifier-error: #AB0300F2;
   --background-primary: #011627; /* note background */
   --background-primary-alt: #011627; /* view-header for inactive notes */
   --background-secondary: #011627; /* background for workspace-leaf with tabs  */
   --background-secondary-alt: #011627; /* background for workspace-ribbon and workspace-leaf with tabs (excluding active tab) */
-  --interactive-accent: #7e57c2cc;
-  --interactive-accent-hover: #7e57c2;
+  --interactive-accent: #7e57c2cc; /* background for buttons, etc. */
+  --interactive-accent-hover: #7e57c2; /* background for buttons, etc. on hover */
   --scrollbar-active-thumb-bg: #084d8150;
   --scrollbar-bg: #084d8130;
   --scrollbar-thumb-bg: #084d8180;
   --text-accent: #ffeb95; /* backlink text */
+  --text-error: #ef5350;
   --text-faint: #4b6479; /* backlink brackets */
   --text-highlight-bg: #1085bb5d; /* Used for matching text in search results */
   --text-muted: #89a4bb; /* sidebar list items, links, calendar dots, etc. */
@@ -19,6 +22,7 @@
   --text-selection: #5f7e9779; /* Used for selecting text in note editor */
 
   /* Custom CSS Variables */
+  --background-darken: #00000044;
   --badge-background: #5f7e97;
   --badge-foreground: #ffffff;
   --note-header-inactive: #0b2942;
@@ -31,6 +35,7 @@
   --component-border: #5f7e97;
   --input-background: #0b253a;
   --input-foreground: #ffffffcc;
+  --list-active-selection-background: #234d708c;
   --text-h1: #ff79c6;
   --text-h2: #82aaff;
   --text-h3: #c5e478;
@@ -45,8 +50,9 @@
   --text-h6-size: 1.12em;
   --text-strong: #c5e478;
   --text-italic: #c792ea;
-  --text-inline-code: #bd93f9;
-  --text-link: #d6deeb;
+  --text-inline-code: #80cbc4;
+  --text-link: #ff869a;
+  --text-blockquote-border: #084d81;
 }
 
 
@@ -92,6 +98,15 @@ input[type="range"]:active, input[type="range"]:focus, input[type="range"]:hover
   border-bottom: 3px solid var(--horizontal-scrollbar)
 }
 
+/* for highlighting selected item in a dropdown (like quick switcher) */
+.suggestion-item.is-selected {
+  background-color: var(--list-active-selection-background);
+}
+/* for highlighting selected item in the right-click dropdown, kebab dropdown */
+.menu-item:hover:not(.is-disabled):not(.is-label) {
+  background-color: var(--list-active-selection-background);
+}
+
 
 /* UI ELEMENTS */
 
@@ -104,7 +119,6 @@ button.copy-code-button {
 button:active, button:focus, button:hover {
   background-color: var(--interactive-accent-hover);
 }
-
 
 /* toast notifications */
 .notice {
@@ -164,13 +178,40 @@ input[type='number']:hover {
 }
 
 .dropdown {
-  background-color: #011627;
+  background-color: var(--background-primary);
   border: 1px solid var(--component-border);
   border-radius: 0px;
 }
 .dropdown:focus {
   border: 1px solid var(--component-border);
 }
+
+
+/* GRAPH VIEW */
+.graph-view.color-fill { /* nodes */
+  color: var(--text-h2)
+}
+.graph-view.color-fill-unresolved { /* nodes that don't exist yet */
+  color: var(--text-muted)
+}
+.graph-view.color-fill-focused { /* local graph for the current node */
+  color: var(--text-h3)
+}
+.theme-dark .graph-view.color-fill-tag {
+  color: var(--text-h4)
+}
+/* .graph-view.color-arrow, */
+.graph-view.color-line {
+  color: var(--component-border)
+}
+.graph-view.color-circle {
+  color: var(--interactive-accent);
+}
+.graph-view.color-fill-highlight,
+.graph-view.color-line-highlight {
+  color: var(--interactive-accent-hover);
+}
+
 
 /* MARKDOWN */
 
@@ -179,22 +220,39 @@ input[type='number']:hover {
   color: var(--text-strong);
 }
 
+/* For italic Markdown text */
 .cm-em {
   color: var(--text-italic);
 }
 
+/* For inline code */
 .cm-s-obsidian span.cm-inline-code,
 .markdown-preview-view code {
   color: var(--text-inline-code);
 }
 
-.cm-url {
+/* For code blocks */
+.markdown-preview-view pre[class*="language-"] {
+  background-color: var(--background-darken);
+}
+
+/* For blockquotes */
+.markdown-preview-view blockquote {
+  background-color: var(--input-background);
+  border: none;
+  border-left: 8px solid var(--text-blockquote-border);
+}
+
+/* external links */
+.cm-s-obsidian span.cm-url {
   font-style: italic;
+  color: var(--text-link);
 }
 .external-link {
   color: var(--text-muted);
 }
 
+/* headings */
 .cm-header-1 {
   color: var(--text-h1);
 }
@@ -214,11 +272,16 @@ input[type='number']:hover {
   color: var(--text-h6);
 }
 
+/* for horizontal lines */
+.markdown-preview-view hr {
+  border-color: var(--text-blockquote-border);
+}
+
 
 /* BUG FIXES */
 
+/* Fix small font when using inline text in note headings */
 .cm-s-obsidian span.cm-inline-code {
-  /* Fix small font when using inline text in note headings */
   font-size: 100%;
 }
 .cm-s-obsidian span.cm-inline-code.cm-header-1 {
