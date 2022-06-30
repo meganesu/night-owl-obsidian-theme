@@ -53,6 +53,7 @@
   --text-inline-code: #80cbc4;
   --text-link: #ff869a;
   --text-blockquote-border: #084d81;
+  --font-family-editor: "Menlo", "Monaco", "Courier New", monospace;
 }
 
 
@@ -89,7 +90,16 @@ input[type="range"]:active, input[type="range"]:focus, input[type="range"]:hover
 
 /* When viewing note in edit mode */
 .workspace-leaf-content[data-mode="source"] .view-content {
-  font-family: "Menlo", "Monaco", "Courier New", monospace; /* Use code editor font */
+  font-family: var(--font-family-editor); /* Use code editor font */
+}
+
+/* attempting to fix editor font on iOS */
+.cm-s-obsidian,
+.mod-single-child .cm-s-obsidian {
+  font-family: var(--font-family-editor);
+}
+.cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-5 {
+  font-family: var(--font-family-editor);
 }
 
 /* For note header (with title) when current note is active */
@@ -200,6 +210,9 @@ input[type='number']:hover {
 .theme-dark .graph-view.color-fill-tag {
   color: var(--text-h4)
 }
+.theme-dark .graph-view.color-fill-attachment {
+  color: var(--text-h1)
+}
 /* .graph-view.color-arrow, */
 .graph-view.color-line {
   color: var(--component-border)
@@ -273,8 +286,14 @@ input[type='number']:hover {
 }
 
 /* for horizontal lines */
-.markdown-preview-view hr {
-  border-color: var(--text-blockquote-border);
+.markdown-preview-view hr, .hr hr {
+  border-color: var(--horizontal-scrollbar);
+}
+
+/* tables */
+.markdown-rendered th, .markdown-rendered td {
+  border: unset;
+  border-bottom: 1px solid var(--horizontal-scrollbar);
 }
 
 
